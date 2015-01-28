@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -22,7 +22,7 @@
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
             <objects>
-                <viewController title="Detail" id="JEX-9P-axG" customClass="DetailViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController title="Detail" id="JEX-9P-axG" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SYR-Wa-9uf"/>
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
@@ -31,25 +31,198 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Detail view content goes here" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0XM-y9-sOw">
-                                <rect key="frame" x="20" y="292" width="560" height="17"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" size="system"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A3o-oS-5O5" userLabel="x1">
+                                <rect key="frame" x="16" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="Kuj-cF-IbG"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="keD-7l-Ian"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HAC-iP-6Q8" userLabel="x2">
+                                <rect key="frame" x="64" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="7XP-FA-adM"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="xrF-js-nco"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDM-ah-3wp" userLabel="x3">
+                                <rect key="frame" x="112" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="AEh-lO-wP3"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="jXG-yE-gT1"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5jK-Yl-iJr" userLabel="x4">
+                                <rect key="frame" x="160" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="UA4-in-bVT"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="HV4-vL-ihh"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wRd-ld-F3L" userLabel="x5">
+                                <rect key="frame" x="208" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="40T-RF-19c"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="Tjs-Vs-JEO"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Sd-UV-SBj" userLabel="x6">
+                                <rect key="frame" x="256" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="Ir8-eU-mfH"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="Lbl-jn-K3M"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LRZ-F8-hX0" userLabel="x7">
+                                <rect key="frame" x="304" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="N4h-w0-Ghv"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="KXz-J9-85S"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="olZ-Ac-sef" userLabel="x8">
+                                <rect key="frame" x="352" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="V6M-Ib-God"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="OFu-Lb-8uo"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpi-Xq-khG" userLabel="x9">
+                                <rect key="frame" x="400" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="KN2-qW-L0y"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="5P5-sm-Q4u"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aMi-eA-XDo" userLabel="x10">
+                                <rect key="frame" x="448" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="HGV-LC-lCx"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="iCy-TG-gpk"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0DH-5Z-4Gd" userLabel="x11">
+                                <rect key="frame" x="496" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="TPg-XX-JCx"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="4OJ-Zj-TeY"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cxJ-ed-tns" userLabel="x12">
+                                <rect key="frame" x="544" y="86" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="5Q5-Bd-l5h"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="WzU-VV-UPf"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jos-wK-0KT" userLabel="y1">
+                                <rect key="frame" x="16" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="kh1-HY-9Wk"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="NS7-hT-DiY"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNa-pP-2Kc" userLabel="y2">
+                                <rect key="frame" x="64" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="r4D-1b-EWg"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="yKx-D0-W4f"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="peb-fD-Hpk" userLabel="y3">
+                                <rect key="frame" x="112" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="dcD-OC-sUR"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="i4U-Ae-T2b"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SUM-EZ-Ucd" userLabel="y4">
+                                <rect key="frame" x="160" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="FTB-Xi-YbV"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="Zfy-1P-b3F"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-Ow-2kM" userLabel="y5">
+                                <rect key="frame" x="208" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="Qso-3M-ojh"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="MJp-d0-S4R"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cCL-mR-thq" userLabel="y6">
+                                <rect key="frame" x="256" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="FF7-ue-hbB"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="wJH-ea-wbr"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6oE-WK-MAk" userLabel="y7">
+                                <rect key="frame" x="304" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="NBR-XC-mhJ"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="eAP-7j-Qqh"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d8M-N5-8P6" userLabel="y8">
+                                <rect key="frame" x="352" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="sxj-wl-lpv"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="7jb-XM-Qfz"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riS-U9-HUg" userLabel="y9">
+                                <rect key="frame" x="400" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="bBx-x2-vvi"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="abG-wI-NKQ"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2kn-x0-il8" userLabel="y10">
+                                <rect key="frame" x="448" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="obZ-7H-keF"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="ikn-sf-jov"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8tz-p8-VV1" userLabel="y11">
+                                <rect key="frame" x="496" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="X0m-nT-9IH"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="0h7-Gx-7BD"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gtR-sq-Qbj" userLabel="y12">
+                                <rect key="frame" x="544" y="256" width="40" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JEX-9P-axG" id="IG1-ID-1nK"/>
+                                    <outlet property="delegate" destination="JEX-9P-axG" id="KAA-SK-N1M"/>
+                                </connections>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="0XM-y9-sOw" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="20" symbolic="YES" id="Tsc-yG-G1q"/>
-                            <constraint firstItem="0XM-y9-sOw" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="jWN-iV-94e"/>
-                            <constraint firstAttribute="trailing" secondItem="0XM-y9-sOw" secondAttribute="trailing" constant="20" symbolic="YES" id="tHV-ZD-HQj"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
                     <connections>
-                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
+                        <outlet property="x1" destination="A3o-oS-5O5" id="lB0-6Y-Qks"/>
+                        <outlet property="x2" destination="HAC-iP-6Q8" id="fOu-KT-RaW"/>
+                        <outlet property="x3" destination="PDM-ah-3wp" id="699-vW-VjH"/>
+                        <outlet property="x4" destination="5jK-Yl-iJr" id="skp-fW-Ml8"/>
+                        <outlet property="x5" destination="wRd-ld-F3L" id="jC8-k6-aHF"/>
+                        <outlet property="x6" destination="1Sd-UV-SBj" id="W6i-dE-Bgk"/>
+                        <outlet property="x7" destination="LRZ-F8-hX0" id="94C-IZ-jVs"/>
+                        <outlet property="x8" destination="olZ-Ac-sef" id="v3e-OI-u3Z"/>
+                        <outlet property="y1" destination="jos-wK-0KT" id="Qv7-BQ-7jP"/>
+                        <outlet property="y10" destination="2kn-x0-il8" id="8bG-gB-pPu"/>
+                        <outlet property="y2" destination="dNa-pP-2Kc" id="4hl-7E-uSq"/>
+                        <outlet property="y3" destination="peb-fD-Hpk" id="yAx-Tr-DRU"/>
+                        <outlet property="y4" destination="SUM-EZ-Ucd" id="CjT-q2-Sd5"/>
+                        <outlet property="y5" destination="hLa-Ow-2kM" id="eyV-dS-ksj"/>
+                        <outlet property="y6" destination="cCL-mR-thq" id="6XY-Wx-xHO"/>
+                        <outlet property="y7" destination="6oE-WK-MAk" id="NXW-7k-5X2"/>
+                        <outlet property="y8" destination="d8M-N5-8P6" id="dWP-mc-oWp"/>
+                        <outlet property="y9" destination="riS-U9-HUg" id="2uy-kE-y9r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -74,7 +247,7 @@
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
-                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" customModuleProvider="" sceneMemberID="viewController">
+                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -131,6 +304,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Tll-UG-LXB"/>
+        <segue reference="GIo-R1-koI"/>
     </inferredMetricsTieBreakers>
 </document>
