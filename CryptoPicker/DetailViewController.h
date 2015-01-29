@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource> {
-    
+@interface DetailViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate> {
     
 }
 
@@ -24,6 +23,10 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *x6;
 @property (weak, nonatomic) IBOutlet UIPickerView *x7;
 @property (weak, nonatomic) IBOutlet UIPickerView *x8;
+@property (weak, nonatomic) IBOutlet UIPickerView *x9;
+@property (weak, nonatomic) IBOutlet UIPickerView *x10;
+@property (weak, nonatomic) IBOutlet UIPickerView *x11;
+@property (weak, nonatomic) IBOutlet UIPickerView *x12;
 @property (weak, nonatomic) IBOutlet UIPickerView *y1;
 @property (weak, nonatomic) IBOutlet UIPickerView *y2;
 @property (weak, nonatomic) IBOutlet UIPickerView *y3;
@@ -34,6 +37,11 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *y8;
 @property (weak, nonatomic) IBOutlet UIPickerView *y9;
 @property (weak, nonatomic) IBOutlet UIPickerView *y10;
+@property (weak, nonatomic) IBOutlet UIPickerView *y11;
+@property (weak, nonatomic) IBOutlet UIPickerView *y12;
+@property (weak, nonatomic) IBOutlet UITextView *ciphertext;
+@property (weak, nonatomic) IBOutlet UITextView *plaintext;
+@property (weak, nonatomic) IBOutlet UIButton *decodeButton;
 
 -(void) updateX:(UIPickerView *)pickerView toRow:(NSInteger)row;
 
