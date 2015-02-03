@@ -70,14 +70,7 @@ NSArray *keyTwoPickers;
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
     
-    
-    
-    
-    
-    
-    
-
-    
+        
 }
 
 - (void)didReceiveMemoryWarning {
@@ -183,7 +176,7 @@ numberOfRowsInComponent:(NSInteger)component
     NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
     NSMutableArray *cipherAlphabet = [[NSMutableArray alloc] initWithCapacity:[alphabetString length]+1];
     
-    NSMutableDictionary *alphabetMap;
+    NSMutableDictionary *alphabetMap = [NSMutableDictionary new];
     
     for (int i=0; i < [alphabetString length]; i++) {
         NSString *ichar  = [NSString stringWithFormat:@"%c", [alphabetString characterAtIndex:i]];
@@ -191,15 +184,26 @@ numberOfRowsInComponent:(NSInteger)component
         [cipherAlphabet addObject:ichar];
     }
     
+    int keywordOneLength;
+    
+    if (keywordOne == NULL) {
+        keywordOneLength = 0;
+    } else {
+        keywordOneLength =  (int)[keywordOne length];
+    }
+    
+
     // split the ciphertext by the length of keywordOne, then decode by each letter
     for (int i=0; i < [ciphertext length]; i++) {
         NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
         int cipherTextIndex = [alphabetMap[character] intValue];
-        int keywordIndex = i % [keywordOne length];
+        int keywordIndex = i % keywordOneLength;
         NSString *keychar = [NSString stringWithFormat:@"%c", [keywordOne characterAtIndex:keywordIndex]];
         int keycharIndex = [alphabetMap[keychar] intValue];
         
-        int plaintextindex = keycharIndex + cipherTextIndex;
+        int plaintextindex = 26 + cipherTextIndex - keycharIndex;
+        
+        plaintextindex = plaintextindex % 26;
         
         NSString *plaintextChar = cipherAlphabet[plaintextindex];
         [plaintext appendString:plaintextChar];
