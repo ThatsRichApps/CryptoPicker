@@ -184,15 +184,8 @@ numberOfRowsInComponent:(NSInteger)component
         [cipherAlphabet addObject:ichar];
     }
     
-    int keywordOneLength;
+    int keywordOneLength = (int)[keywordOne length];
     
-    if (keywordOne == NULL) {
-        keywordOneLength = 0;
-    } else {
-        keywordOneLength =  (int)[keywordOne length];
-    }
-    
-
     // split the ciphertext by the length of keywordOne, then decode by each letter
     for (int i=0; i < [ciphertext length]; i++) {
         NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
@@ -211,11 +204,78 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSLog(@"%@", returnText);
     
+    
+    plaintext = [[self transpose:plaintext byXChars:4 padAtEnd:true clockwise:true] mutableCopy];
+    
     return (plaintext);
 
     
 }
 
+-(NSString *) transpose:(NSString *)ciphertext byXChars:(int)xChars padAtEnd:(bool)atEnd clockwise:(bool)clockwise {
+    
+    
+    // basically we take string ciphertext and put into rows xChars wide then turn left or right and read from
+    // the side
+    
+    
+    NSMutableString *CT = [ciphertext mutableCopy];
+    
+    
+    int ciphertextLength = (int)[ciphertext length];
+    
+    int numLettersToPad = xChars - (ciphertextLength % xChars);
+    
+    int numStrings = (int)(ciphertextLength / xChars);
+    
+    //NSLog(@"number of rows: %d", numStrings);
+
+    // either pad at beginning or end
+    
+    if (numLettersToPad != 0) {
+        
+        numStrings++;
+        
+        NSMutableString *padString = [NSMutableString stringWithString:@""];
+        for (int i=0; i < numLettersToPad; i++) {
+            [padString appendString:@"X"];
+        }
+        
+        if (atEnd) {
+            //[CT stringByPaddingToLength:(ciphertextLength + numLettersToPad) withString:@"X" startingAtIndex:0];
+        
+            [CT insertString:padString atIndex:ciphertextLength];
+            
+        } else {
+            [CT insertString:padString atIndex:0];
+        }
+    }
+    
+    // create an array of NSMutableStrings
+    NSMutableArray *stringArrays = [NSMutableArray new];
+    
+    for (int i=0; i < numStrings; i++) {
+        
+        [stringArrays addObject:[NSMutableString stringWithString:@""]];
+        
+    }
+    
+    // split the ciphertext into arrays by xChar width, then read off from bottom left
+    int arrayIndex = -1;
+    for (int i=0; i < [CT length]; i++) {
+        if ((i % xChars) == 0) {
+            arrayIndex++;
+        }
+        [[stringArrays objectAtIndex:arrayIndex] appendString:[NSString stringWithFormat:@"%c", [CT characterAtIndex:i]]];
+    }
+    
+    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:0]);
+    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:1]);
+    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:2]);
+    
+    return (CT);
+    
+}
 
 
 
