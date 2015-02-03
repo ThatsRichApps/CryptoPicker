@@ -15,6 +15,7 @@
 		81D200DB1A5C217000D26A3B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81D200DA1A5C217000D26A3B /* Images.xcassets */; };
 		81D200DE1A5C217000D26A3B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81D200DC1A5C217000D26A3B /* LaunchScreen.xib */; };
 		81D200EA1A5C217100D26A3B /* CryptoPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D200E91A5C217100D26A3B /* CryptoPickerTests.m */; };
+		9B20AFB91A7C5A5B00B5CE83 /* KeyedVigenere.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B20AFB81A7C5A5B00B5CE83 /* KeyedVigenere.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		81D200E31A5C217100D26A3B /* CryptoPickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoPickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81D200E81A5C217100D26A3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81D200E91A5C217100D26A3B /* CryptoPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptoPickerTests.m; sourceTree = "<group>"; };
+		9B20AFB71A7C5A5B00B5CE83 /* KeyedVigenere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyedVigenere.h; sourceTree = "<group>"; };
+		9B20AFB81A7C5A5B00B5CE83 /* KeyedVigenere.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyedVigenere.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +97,8 @@
 				81D200DA1A5C217000D26A3B /* Images.xcassets */,
 				81D200DC1A5C217000D26A3B /* LaunchScreen.xib */,
 				81D200CA1A5C217000D26A3B /* Supporting Files */,
+				9B20AFB71A7C5A5B00B5CE83 /* KeyedVigenere.h */,
+				9B20AFB81A7C5A5B00B5CE83 /* KeyedVigenere.m */,
 			);
 			path = CryptoPicker;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B20AFB91A7C5A5B00B5CE83 /* KeyedVigenere.m in Sources */,
 				81D200D01A5C217000D26A3B /* AppDelegate.m in Sources */,
 				81D200D31A5C217000D26A3B /* MasterViewController.m in Sources */,
 				81D200CD1A5C217000D26A3B /* main.m in Sources */,
@@ -420,6 +426,7 @@
 				81D200EF1A5C217100D26A3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		81D200F01A5C217100D26A3B /* Build configuration list for PBXNativeTarget "CryptoPickerTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +435,7 @@
 				81D200F21A5C217100D26A3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
