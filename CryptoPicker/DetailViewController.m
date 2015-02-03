@@ -133,9 +133,13 @@ numberOfRowsInComponent:(NSInteger)component
 }
 - (IBAction)pressedDecode:(id)sender {
     
-    NSString *ciphertext = _ciphertext.text;
+    //NSString *ciphertext = _ciphertext.text;
+    //_plaintext.text = [self decode:ciphertext];
     
-    _plaintext.text = [self decode:ciphertext];
+    _plaintext.text = _ciphertext.text;
+    
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:8 padAtEnd:true clockwise:true] mutableCopy];
     
 }
 
@@ -205,8 +209,6 @@ numberOfRowsInComponent:(NSInteger)component
     NSLog(@"%@", returnText);
     
     
-    plaintext = [[self transpose:plaintext byXChars:4 padAtEnd:true clockwise:true] mutableCopy];
-    
     return (plaintext);
 
     
@@ -226,6 +228,9 @@ numberOfRowsInComponent:(NSInteger)component
     
     int numLettersToPad = xChars - (ciphertextLength % xChars);
     
+    // hack!
+    if (numLettersToPad == xChars) {numLettersToPad = 0;}
+    
     int numStrings = (int)(ciphertextLength / xChars);
     
     //NSLog(@"number of rows: %d", numStrings);
@@ -238,7 +243,7 @@ numberOfRowsInComponent:(NSInteger)component
         
         NSMutableString *padString = [NSMutableString stringWithString:@""];
         for (int i=0; i < numLettersToPad; i++) {
-            [padString appendString:@"X"];
+            [padString appendString:@"."];
         }
         
         if (atEnd) {
@@ -269,11 +274,24 @@ numberOfRowsInComponent:(NSInteger)component
         [[stringArrays objectAtIndex:arrayIndex] appendString:[NSString stringWithFormat:@"%c", [CT characterAtIndex:i]]];
     }
     
+    NSMutableString *transposedString = [NSMutableString stringWithString:@""];
+    
+    
+    for (int j = 0; j < xChars; j++) {
+        for (int i = numStrings - 1; i >= 0; i--) {
+            [transposedString appendString:[[stringArrays objectAtIndex:i] substringWithRange:NSMakeRange(j,1)]];
+        }
+    }
+    
+    
     NSLog(@"transpose string: %@", [stringArrays objectAtIndex:0]);
     NSLog(@"transpose string: %@", [stringArrays objectAtIndex:1]);
     NSLog(@"transpose string: %@", [stringArrays objectAtIndex:2]);
     
-    return (CT);
+    NSLog(@"transposed string final: %@", transposedString);
+    
+    
+    return (transposedString);
     
 }
 
