@@ -138,10 +138,51 @@ numberOfRowsInComponent:(NSInteger)component
     
     _plaintext.text = _ciphertext.text;
     
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:8 padAtEnd:true clockwise:true] mutableCopy];
+    //_plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:4 padAtEnd:true clockwise:true] mutableCopy];
     
 }
+
+
+-(NSString *) decodeVigenere:(NSString *)ciphertext withKeyword:(NSString *)keyword {
+    
+    NSMutableString *plaintext = [NSMutableString stringWithString:@""];
+    
+    NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
+    NSMutableArray *cipherAlphabet = [[NSMutableArray alloc] initWithCapacity:[alphabetString length]+1];
+    
+    NSMutableDictionary *alphabetMap = [NSMutableDictionary new];
+    
+    for (int i=0; i < [alphabetString length]; i++) {
+        NSString *ichar  = [NSString stringWithFormat:@"%c", [alphabetString characterAtIndex:i]];
+        [alphabetMap setObject:[NSNumber numberWithInt:i] forKey:ichar];
+        [cipherAlphabet addObject:ichar];
+    }
+    
+    int keywordLength = (int)[keyword length];
+    
+    // split the ciphertext by the length of keyword, then decode by each letter
+    for (int i=0; i < [ciphertext length]; i++) {
+        
+        if (keywordLength == 0) {break;}
+        
+        NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
+        int cipherTextIndex = [alphabetMap[character] intValue];
+        int keywordIndex = i % keywordLength;
+        NSString *keychar = [NSString stringWithFormat:@"%c", [keyword characterAtIndex:keywordIndex]];
+        int keycharIndex = [alphabetMap[keychar] intValue];
+        
+        int plaintextindex = 26 + cipherTextIndex - keycharIndex;
+        
+        plaintextindex = plaintextindex % 26;
+        
+        NSString *plaintextChar = cipherAlphabet[plaintextindex];
+        [plaintext appendString:plaintextChar];
+    }
+    
+    return (plaintext);
+}
+
 
 -(NSString *) decode:(NSString *)ciphertext
 
@@ -149,7 +190,7 @@ numberOfRowsInComponent:(NSInteger)component
    
     NSMutableString *keywordOne = [NSMutableString stringWithString:@""];
     NSMutableString *keywordTwo = [NSMutableString stringWithString:@""];
-    NSMutableString *plaintext = [NSMutableString stringWithString:@""];
+    NSString *plaintext = [NSMutableString stringWithString:@""];
     
     // go through the array of uipickers and get each letter
     // concatenate into a string
@@ -176,6 +217,7 @@ numberOfRowsInComponent:(NSInteger)component
     NSString *returnText = [NSString stringWithFormat:@"key1 = %@\nkey2 = %@", keywordOne, keywordTwo];
     
     // create the encode and decoder hashes
+    /*
     
     NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
     NSMutableArray *cipherAlphabet = [[NSMutableArray alloc] initWithCapacity:[alphabetString length]+1];
@@ -205,9 +247,18 @@ numberOfRowsInComponent:(NSInteger)component
         NSString *plaintextChar = cipherAlphabet[plaintextindex];
         [plaintext appendString:plaintextChar];
     }
+     
+    */
+    
+    plaintext = [self decodeVigenere:ciphertext withKeyword:keywordOne];
+    
+    plaintext = [self transpose:plaintext byXChars:4 padAtEnd:true clockwise:true];
+    
+    plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
+
+    plaintext = [self transpose:plaintext byXChars:8 padAtEnd:true clockwise:false];
     
     NSLog(@"%@", returnText);
-    
     
     return (plaintext);
 
@@ -276,19 +327,25 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSMutableString *transposedString = [NSMutableString stringWithString:@""];
     
-    
-    for (int j = 0; j < xChars; j++) {
-        for (int i = numStrings - 1; i >= 0; i--) {
-            [transposedString appendString:[[stringArrays objectAtIndex:i] substringWithRange:NSMakeRange(j,1)]];
+    if (clockwise) {
+        for (int j = 0; j < xChars; j++) {
+            for (int i = numStrings - 1; i >= 0; i--) {
+                [transposedString appendString:[[stringArrays objectAtIndex:i] substringWithRange:NSMakeRange(j,1)]];
+            }
+        }
+    } else {
+        for (int j = xChars - 1; j >= 0; j--) {
+            for (int i = 0; i < numStrings; i++) {
+                [transposedString appendString:[[stringArrays objectAtIndex:i] substringWithRange:NSMakeRange(j,1)]];
+            }
         }
     }
     
+    //NSLog(@"transpose string: %@", [stringArrays objectAtIndex:0]);
+    //NSLog(@"transpose string: %@", [stringArrays objectAtIndex:1]);
+    //NSLog(@"transpose string: %@", [stringArrays objectAtIndex:2]);
     
-    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:0]);
-    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:1]);
-    NSLog(@"transpose string: %@", [stringArrays objectAtIndex:2]);
-    
-    NSLog(@"transposed string final: %@", transposedString);
+    //NSLog(@"transposed string final: %@", transposedString);
     
     
     return (transposedString);
