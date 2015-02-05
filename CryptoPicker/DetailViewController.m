@@ -139,7 +139,7 @@ numberOfRowsInComponent:(NSInteger)component
     _plaintext.text = _ciphertext.text;
     
     //_plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:4 padAtEnd:true clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:14 padAtEnd:false clockwise:true] mutableCopy];
     
 }
 
@@ -216,47 +216,13 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSString *returnText = [NSString stringWithFormat:@"key1 = %@\nkey2 = %@", keywordOne, keywordTwo];
     
-    // create the encode and decoder hashes
-    /*
-    
-    NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
-    NSMutableArray *cipherAlphabet = [[NSMutableArray alloc] initWithCapacity:[alphabetString length]+1];
-    
-    NSMutableDictionary *alphabetMap = [NSMutableDictionary new];
-    
-    for (int i=0; i < [alphabetString length]; i++) {
-        NSString *ichar  = [NSString stringWithFormat:@"%c", [alphabetString characterAtIndex:i]];
-        [alphabetMap setObject:[NSNumber numberWithInt:i] forKey:ichar];
-        [cipherAlphabet addObject:ichar];
-    }
-    
-    int keywordOneLength = (int)[keywordOne length];
-    
-    // split the ciphertext by the length of keywordOne, then decode by each letter
-    for (int i=0; i < [ciphertext length]; i++) {
-        NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
-        int cipherTextIndex = [alphabetMap[character] intValue];
-        int keywordIndex = i % keywordOneLength;
-        NSString *keychar = [NSString stringWithFormat:@"%c", [keywordOne characterAtIndex:keywordIndex]];
-        int keycharIndex = [alphabetMap[keychar] intValue];
-        
-        int plaintextindex = 26 + cipherTextIndex - keycharIndex;
-        
-        plaintextindex = plaintextindex % 26;
-        
-        NSString *plaintextChar = cipherAlphabet[plaintextindex];
-        [plaintext appendString:plaintextChar];
-    }
-     
-    */
-    
     plaintext = [self decodeVigenere:ciphertext withKeyword:keywordOne];
     
-    plaintext = [self transpose:plaintext byXChars:4 padAtEnd:true clockwise:true];
+    plaintext = [self transpose:plaintext byXChars:14 padAtEnd:false clockwise:true];
     
     plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
 
-    plaintext = [self transpose:plaintext byXChars:8 padAtEnd:true clockwise:false];
+    plaintext = [self transpose:plaintext byXChars:7 padAtEnd:false clockwise:false];
     
     NSLog(@"%@", returnText);
     
