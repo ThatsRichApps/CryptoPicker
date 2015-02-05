@@ -220,9 +220,30 @@ numberOfRowsInComponent:(NSInteger)component
     
     plaintext = [self transpose:plaintext byXChars:14 padAtEnd:false clockwise:true];
     
+<<<<<<< Updated upstream
     plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
 
     plaintext = [self transpose:plaintext byXChars:7 padAtEnd:false clockwise:false];
+=======
+    // split the ciphertext by the length of keywordOne, then decode by each letter
+    for (int i=0; i < [ciphertext length]; i++) {
+        
+        if (keywordOneLength == 0) break;
+        
+        NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
+        int cipherTextIndex = [alphabetMap[character] intValue];
+        int keywordIndex = i % keywordOneLength;
+        NSString *keychar = [NSString stringWithFormat:@"%c", [keywordOne characterAtIndex:keywordIndex]];
+        int keycharIndex = [alphabetMap[keychar] intValue];
+        
+        int plaintextindex = 26 + cipherTextIndex - keycharIndex;
+        
+        plaintextindex = plaintextindex % 26;
+        
+        NSString *plaintextChar = cipherAlphabet[plaintextindex];
+        [plaintext appendString:plaintextChar];
+    }
+>>>>>>> Stashed changes
     
     NSLog(@"%@", returnText);
     
