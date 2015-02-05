@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *decodeButton;
 
 -(void) updateX:(UIPickerView *)pickerView toRow:(NSInteger)row;
+@property (weak, nonatomic) IBOutlet UIButton *resetButton;
 
 @end
 

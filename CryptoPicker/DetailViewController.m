@@ -53,7 +53,7 @@ NSArray *keyTwoPickers;
     }
 
     // create the initial settings:
-    
+    /*
     [_x1 selectRow:8 inComponent:0 animated:YES];
     [_x2 selectRow:9 inComponent:0 animated:YES];
     [_x3 selectRow:7 inComponent:0 animated:YES];
@@ -67,6 +67,7 @@ NSArray *keyTwoPickers;
     [_y2 selectRow:12 inComponent:0 animated:YES];
     [_y3 selectRow:7 inComponent:0 animated:YES];
     [_y4 selectRow:5 inComponent:0 animated:YES];
+    */
     
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
@@ -104,7 +105,6 @@ numberOfRowsInComponent:(NSInteger)component
 
 -(void) updateX:(UIPickerView *)pickerView toRow:(NSInteger)row {
     
-    
 }
 
 
@@ -140,10 +140,39 @@ numberOfRowsInComponent:(NSInteger)component
     _plaintext.text = _ciphertext.text;
     
     //_plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:4 padAtEnd:false clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:14 padAtEnd:false clockwise:true] mutableCopy];
     
 }
 
+- (IBAction)pressedReset:(id)sender {
+    
+    [_x1 selectRow:0 inComponent:0 animated:YES];
+    [_x2 selectRow:0 inComponent:0 animated:YES];
+    [_x3 selectRow:0 inComponent:0 animated:YES];
+    [_x4 selectRow:0 inComponent:0 animated:YES];
+    [_x5 selectRow:0 inComponent:0 animated:YES];
+    [_x6 selectRow:0 inComponent:0 animated:YES];
+    [_x7 selectRow:0 inComponent:0 animated:YES];
+    [_x8 selectRow:0 inComponent:0 animated:YES];
+    [_x9 selectRow:0 inComponent:0 animated:YES];
+    [_x10 selectRow:0 inComponent:0 animated:YES];
+    [_x11 selectRow:0 inComponent:0 animated:YES];
+    [_x12 selectRow:0 inComponent:0 animated:YES];
+    
+    [_y1 selectRow:0 inComponent:0 animated:YES];
+    [_y2 selectRow:0 inComponent:0 animated:YES];
+    [_y3 selectRow:0 inComponent:0 animated:YES];
+    [_y4 selectRow:0 inComponent:0 animated:YES];
+    [_y5 selectRow:0 inComponent:0 animated:YES];
+    [_y6 selectRow:0 inComponent:0 animated:YES];
+    [_y7 selectRow:0 inComponent:0 animated:YES];
+    [_y8 selectRow:0 inComponent:0 animated:YES];
+    [_y9 selectRow:0 inComponent:0 animated:YES];
+    [_y10 selectRow:0 inComponent:0 animated:YES];
+    [_y11 selectRow:0 inComponent:0 animated:YES];
+    [_y12 selectRow:0 inComponent:0 animated:YES];
+    
+}
 
 -(NSString *) decodeVigenere:(NSString *)ciphertext withKeyword:(NSString *)keyword {
     
@@ -231,11 +260,11 @@ numberOfRowsInComponent:(NSInteger)component
     
     plaintext = [self decodeVigenere:ciphertext withKeyword:keywordOne];
     
-    plaintext = [self transpose:plaintext byXChars:4 padAtEnd:FALSE clockwise:true];
+    plaintext = [self transpose:plaintext byXChars:14 padAtEnd:FALSE clockwise:true];
     
     plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
 
-    plaintext = [self transpose:plaintext byXChars:8 padAtEnd:FALSE clockwise:false];
+    plaintext = [self transpose:plaintext byXChars:7 padAtEnd:FALSE clockwise:false];
     
     NSLog(@"%@", returnText);
     

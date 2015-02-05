@@ -178,9 +178,11 @@
 				TargetAttributes = {
 					81D200C61A5C217000D26A3B = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 89XH385K93;
 					};
 					81D200E21A5C217100D26A3B = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 89XH385K93;
 						TestTargetID = 81D200C61A5C217000D26A3B;
 					};
 				};
@@ -377,6 +379,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -388,6 +392,7 @@
 				INFOPLIST_FILE = CryptoPickerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CryptoPicker.app/CryptoPicker";
 			};
 			name = Debug;
@@ -396,6 +401,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -403,6 +410,7 @@
 				INFOPLIST_FILE = CryptoPickerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CryptoPicker.app/CryptoPicker";
 			};
 			name = Release;
