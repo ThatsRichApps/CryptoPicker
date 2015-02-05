@@ -54,18 +54,19 @@ NSArray *keyTwoPickers;
 
     // create the initial settings:
     
-    
-    
-/*
-    [_x1 selectRow:0 inComponent:0 animated:YES];
-    [_x2 selectRow:1 inComponent:0 animated:YES];
-    [_x3 selectRow:2 inComponent:0 animated:YES];
-    [_x4 selectRow:3 inComponent:0 animated:YES];
-    [_x5 selectRow:4 inComponent:0 animated:YES];
-    [_x6 selectRow:5 inComponent:0 animated:YES];
-    [_x7 selectRow:6 inComponent:0 animated:YES];
-    [_x8 selectRow:7 inComponent:0 animated:YES];
-*/
+    [_x1 selectRow:8 inComponent:0 animated:YES];
+    [_x2 selectRow:9 inComponent:0 animated:YES];
+    [_x3 selectRow:7 inComponent:0 animated:YES];
+    [_x4 selectRow:10 inComponent:0 animated:YES];
+    [_x5 selectRow:16 inComponent:0 animated:YES];
+    [_x6 selectRow:7 inComponent:0 animated:YES];
+    [_x7 selectRow:7 inComponent:0 animated:YES];
+    [_x8 selectRow:8 inComponent:0 animated:YES];
+
+    [_y1 selectRow:5 inComponent:0 animated:YES];
+    [_y2 selectRow:12 inComponent:0 animated:YES];
+    [_y3 selectRow:7 inComponent:0 animated:YES];
+    [_y4 selectRow:5 inComponent:0 animated:YES];
     
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
@@ -127,7 +128,7 @@ numberOfRowsInComponent:(NSInteger)component
                                                 replacementText:(NSString *)text
 {
     
-    NSLog(@"changed ciphertext");
+    //NSLog(@"changed ciphertext");
     return true;
     
 }
@@ -139,7 +140,7 @@ numberOfRowsInComponent:(NSInteger)component
     _plaintext.text = _ciphertext.text;
     
     //_plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:14 padAtEnd:false clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:4 padAtEnd:false clockwise:true] mutableCopy];
     
 }
 
@@ -161,14 +162,23 @@ numberOfRowsInComponent:(NSInteger)component
     
     int keywordLength = (int)[keyword length];
     
+    int vigIndex = 0;
+    
     // split the ciphertext by the length of keyword, then decode by each letter
     for (int i=0; i < [ciphertext length]; i++) {
         
         if (keywordLength == 0) {break;}
         
         NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
+
+        // skip if it's not in the alphabet
+        if ([alphabetString rangeOfString:character].location == NSNotFound){
+            [plaintext appendString:character];
+            continue;
+        }
+        
         int cipherTextIndex = [alphabetMap[character] intValue];
-        int keywordIndex = i % keywordLength;
+        int keywordIndex = vigIndex % keywordLength;
         NSString *keychar = [NSString stringWithFormat:@"%c", [keyword characterAtIndex:keywordIndex]];
         int keycharIndex = [alphabetMap[keychar] intValue];
         
@@ -178,6 +188,9 @@ numberOfRowsInComponent:(NSInteger)component
         
         NSString *plaintextChar = cipherAlphabet[plaintextindex];
         [plaintext appendString:plaintextChar];
+    
+        vigIndex++;
+    
     }
     
     return (plaintext);
@@ -218,32 +231,11 @@ numberOfRowsInComponent:(NSInteger)component
     
     plaintext = [self decodeVigenere:ciphertext withKeyword:keywordOne];
     
-    plaintext = [self transpose:plaintext byXChars:14 padAtEnd:false clockwise:true];
+    plaintext = [self transpose:plaintext byXChars:4 padAtEnd:FALSE clockwise:true];
     
-<<<<<<< Updated upstream
     plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
 
-    plaintext = [self transpose:plaintext byXChars:7 padAtEnd:false clockwise:false];
-=======
-    // split the ciphertext by the length of keywordOne, then decode by each letter
-    for (int i=0; i < [ciphertext length]; i++) {
-        
-        if (keywordOneLength == 0) break;
-        
-        NSString *character  = [NSString stringWithFormat:@"%c", [ciphertext characterAtIndex:i]];
-        int cipherTextIndex = [alphabetMap[character] intValue];
-        int keywordIndex = i % keywordOneLength;
-        NSString *keychar = [NSString stringWithFormat:@"%c", [keywordOne characterAtIndex:keywordIndex]];
-        int keycharIndex = [alphabetMap[keychar] intValue];
-        
-        int plaintextindex = 26 + cipherTextIndex - keycharIndex;
-        
-        plaintextindex = plaintextindex % 26;
-        
-        NSString *plaintextChar = cipherAlphabet[plaintextindex];
-        [plaintext appendString:plaintextChar];
-    }
->>>>>>> Stashed changes
+    plaintext = [self transpose:plaintext byXChars:8 padAtEnd:FALSE clockwise:false];
     
     NSLog(@"%@", returnText);
     
@@ -261,6 +253,7 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSMutableString *CT = [ciphertext mutableCopy];
     
+    NSLog(@"ciphertext is: %@", ciphertext);
     
     int ciphertextLength = (int)[ciphertext length];
     
