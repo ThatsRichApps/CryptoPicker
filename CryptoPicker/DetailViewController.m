@@ -16,6 +16,7 @@
 
 NSArray *keyOnePickers;
 NSArray *keyTwoPickers;
+NSString *alphabetString = @"";
 
 #pragma mark - Managing the detail item
 
@@ -80,6 +81,12 @@ NSArray *keyTwoPickers;
     // Dispose of any resources that can be recreated.
 }
 
+-(void) setAlphabetString:(NSString *)alphabet {
+    
+    alphabetString = alphabet;
+    
+}
+
 
 #pragma mark -
 #pragma mark PickerView DataSource
@@ -114,12 +121,8 @@ numberOfRowsInComponent:(NSInteger)component
       inComponent:(NSInteger)component
 {
     
-    // need to be replaced with some sort of strategy pattern
-    if (pickerView == _x1) {
-        NSLog(@"x1 changed");
-    }
+    // called whenever a picker is turned
     NSString *ciphertext = _ciphertext.text;
-    
     _plaintext.text = [self decode:ciphertext];
     
 }
@@ -132,17 +135,24 @@ numberOfRowsInComponent:(NSInteger)component
     return true;
     
 }
-- (IBAction)pressedDecode:(id)sender {
-    
+
+- (IBAction)pressedTranspose:(id)sender {
+
     //NSString *ciphertext = _ciphertext.text;
     //_plaintext.text = [self decode:ciphertext];
+    
+    
+    int xChars = [_boxWidth.text intValue];
     
     _plaintext.text = _ciphertext.text;
     
     //_plaintext.text = [[self transpose:_plaintext.text byXChars:24 padAtEnd:true clockwise:true] mutableCopy];
-    _plaintext.text = [[self transpose:_plaintext.text byXChars:14 padAtEnd:false clockwise:true] mutableCopy];
+    //_plaintext.text = [[self transpose:_plaintext.text byXChars:14 padAtEnd:false clockwise:true] mutableCopy];
+    _plaintext.text = [[self transpose:_plaintext.text byXChars:xChars padAtEnd:false clockwise:true] mutableCopy];
     
 }
+
+
 
 - (IBAction)pressedReset:(id)sender {
     
@@ -178,7 +188,11 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSMutableString *plaintext = [NSMutableString stringWithString:@""];
     
-    NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
+    //NSString *alphabetString = @"KRYPTOSABCDEFGHIJLMNQUVWXZ";
+    if ([alphabetString  isEqual: @""]) {
+        [self setAlphabetString:@"KRYPTOSABCDEFGHIJLMNQUVWXZ"];
+    }
+    
     NSMutableArray *cipherAlphabet = [[NSMutableArray alloc] initWithCapacity:[alphabetString length]+1];
     
     NSMutableDictionary *alphabetMap = [NSMutableDictionary new];
@@ -256,17 +270,35 @@ numberOfRowsInComponent:(NSInteger)component
         }
     }
     
-    NSString *returnText = [NSString stringWithFormat:@"key1 = %@\nkey2 = %@", keywordOne, keywordTwo];
+    //NSString *returnText = [NSString stringWithFormat:@"key1 = %@\nkey2 = %@", keywordOne, keywordTwo];
+    //NSLog(@"%@", returnText);
     
     plaintext = [self decodeVigenere:ciphertext withKeyword:keywordOne];
     
-    plaintext = [self transpose:plaintext byXChars:14 padAtEnd:FALSE clockwise:true];
+    int xChars = [_boxWidth.text intValue];
+    
+    plaintext = [self transpose:plaintext byXChars:xChars padAtEnd:FALSE clockwise:true];
+    
+    // change the alphabet key if you want
+    //[self setAlphabetString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
     
     plaintext = [self decodeVigenere:plaintext withKeyword:keywordTwo];
 
-    plaintext = [self transpose:plaintext byXChars:7 padAtEnd:FALSE clockwise:false];
+    int turnBack = (int)[plaintext length] / xChars;
+
+    if (turnBack == 0) { turnBack = 1;};
     
-    NSLog(@"%@", returnText);
+    plaintext = [self transpose:plaintext byXChars:turnBack padAtEnd:FALSE clockwise:false];
+    
+    // determine the value of x and y that are used to encode the crib NYPVTTMZFPK to BERLINCLOCK
+    int keyOneLength = [keywordOne length];
+    int keyTwoLength = [keywordTwo length];
+    
+    // get the location of the cribstring
+    
+    
+    
+    
     
     return (plaintext);
 
@@ -282,7 +314,7 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSMutableString *CT = [ciphertext mutableCopy];
     
-    NSLog(@"ciphertext is: %@", ciphertext);
+    //NSLog(@"ciphertext is: %@", ciphertext);
     
     int ciphertextLength = (int)[ciphertext length];
     
@@ -361,8 +393,56 @@ numberOfRowsInComponent:(NSInteger)component
     
 }
 
+- (IBAction)K1pressed:(id)sender {
+    
+    NSString *K1 = @"EMUFPHZLRFAXYUSDJKZLDKRNSHGNFI"
+                    "VJYQTQUXQBQVYUVLLTREVJYQTMKYRDMFD";
+    _ciphertext.text = K1;
+    
+}
 
+- (IBAction)K2pressed:(id)sender {
 
+    NSString *K2 = @"VFPJUDEEHZWETZYVGWHKKQETGFQJNCE"
+    "GGWHKKDQMCPFQZDQMMIAGPFXHQRLG"
+    "TIMVMZJANQLVKQEDAGDVFRPJUNGEUNA"
+    "QZGZLECGYUXUEENJTBJLBQCRTBJDFHRR"
+    "YIZETKZEMVDUFKSJHKFWHKUWQLSZFTI"
+    "HHDDDUVHDWKBFUFPWNTDFIYCUQZERE"
+    "EVLDKFEZMOQQJLTTUGSYQPFEUNLAVIDX"
+    "FLGGTEZFKZBSFDQVGOGIPUFXHHDRKF"
+    "FHQNTGPUAECNUVPDJMQCLQUMUNEDFQ"
+    "ELZZVRRGKFFVOEEXBDMVPNFQXEZLGRE"
+    "DNQFMPNZGLFLPMRJQYALMGNUVPDXVKP"
+    "DQUMEBEDMHDAFMJGZNUPLGESWJLLAETG";
+    _ciphertext.text = K2;
+
+}
+
+- (IBAction)K3pressed:(id)sender {
+
+    NSString *K3 = @"ENDYAHROHNLSRHEOCPTEOIBIDYSHNAIA"
+    "CHTNREYULDSLLSLLNOHSNOSMRWXMNE"
+    "TPRNGATIHNRARPESLNNELEBLPIIACAE"
+    "WMTWNDITEENRAHCTENEUDRETNHAEOE"
+    "TFOLSEDTIWENHAEIOYTEYQHEENCTAYCR"
+    "EIFTBRSPAMHHEWENATAMATEGYEERLB"
+    "TEEFOASFIOTUETUAEOTOARMAEERTNRTI"
+    "BSEDDNIAAHTTMSTEWPIEROAGRIEWFEB"
+    "AECTDDHILCEIHSITEGOEAOSDDRYDLORIT"
+    "RKLMLEHAGTDHARDPNEOHMGFMFEUHE"
+    "ECDMRIPFEIMEHNLSSTTRTVDOHW";
+    _ciphertext.text = K3;
+
+}
+- (IBAction)K4pressed:(id)sender {
+
+    NSString *K4 = @"OBKRUOXOGHULBSOLIFBBWFLRVQQPRNGKS"
+    "SOTWTQSJQSSEKZZWATJKLUDIAWINFBN"
+    "YPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR";
+    _ciphertext.text = K4;
+
+}
 
 
 @end

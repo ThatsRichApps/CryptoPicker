@@ -45,6 +45,7 @@
 
 -(void) updateX:(UIPickerView *)pickerView toRow:(NSInteger)row;
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet UITextField *boxWidth;
 
 @end
 
