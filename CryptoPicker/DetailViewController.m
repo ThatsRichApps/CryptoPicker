@@ -295,16 +295,105 @@ numberOfRowsInComponent:(NSInteger)component
     plaintext = [self transpose:plaintext byXChars:turnBack padAtEnd:FALSE clockwise:false];
     
     // determine the value of x and y that are used to encode the crib NYPVTTMZFPK to BERLINCLOCK
-    int keyOneLength = [keywordOne length];
-    int keyTwoLength = [keywordTwo length];
-    int plaintextLength = [plaintext length];
+    int keyOneLength = (int)[keywordOne length];
+    int keyTwoLength = (int)[keywordTwo length];
+    int plaintextLength = (int)[_plaintext.text length];
+    NSMutableDictionary *keyOneMap = [NSMutableDictionary new];
+    NSMutableDictionary *keyTwoMap = [NSMutableDictionary new];
+    
+    NSString *tempText = _plaintext.text;
+    
+    NSMutableString *positionData = [NSMutableString stringWithString:@""];
     
     // in order to figure out where the cribstring is and what is was encoded with, we need to
     // know its location, the key lengths, and the number of padded chars
-    // or, I suppose I could track it by character at time of decode??
-    // add this to the To Do list
     
-    // get the location of the cribstring
+    // essentially do the decode process over without changing anything...
+    
+    int vigIndex = 0;
+    int numPads = 0;
+    // split the ciphertext by the length of keyword, then decode by each letter
+    for (int i=0; i < plaintextLength; i++) {
+        
+        if (keyOneLength == 0) {break;}
+        
+        NSString *character  = [NSString stringWithFormat:@"%c", [tempText characterAtIndex:i]];
+        
+        // skip if it's not in the alphabet
+        if ([alphabetString rangeOfString:character].location == NSNotFound){
+            numPads++;
+            continue;
+        }
+        int keywordIndex = vigIndex % keyOneLength;
+
+        [positionData appendString:[NSString stringWithFormat:@"%@ - %i",character,keywordIndex + 1]];
+        //NSLog (@"%i - %@ - %i",vigIndex,character,keywordIndex + 1);
+        [keyOneMap setObject:[NSNumber numberWithInt:keywordIndex + 1] forKey:[NSString stringWithFormat:@"%d",vigIndex]];
+        
+        vigIndex++;
+        
+    }
+
+    // then transpose and check for y key map
+    tempText = [[self transpose:tempText byXChars:xChars padAtEnd:false clockwise:true] mutableCopy];
+
+    vigIndex = 0;
+    // split the ciphertext by the length of keyword, then decode by each letter
+    for (int i=0; i < plaintextLength; i++) {
+        
+        if (keyTwoLength == 0) {break;}
+        
+        NSString *character  = [NSString stringWithFormat:@"%c", [tempText characterAtIndex:i]];
+        
+        // skip if it's not in the alphabet
+        if ([alphabetString rangeOfString:character].location == NSNotFound){
+            continue;
+        }
+        int keywordIndex = vigIndex % keyTwoLength;
+        // the position of the char is different due to the transposition
+        // there should be a formula to figure it out...
+        //int position =
+        
+        [positionData appendString:[NSString stringWithFormat:@"%@ - %i",character,keywordIndex + 1]];
+        //NSLog (@"%i - %@ - %i",vigIndex,character,keywordIndex + 1);
+        [keyTwoMap setObject:[NSNumber numberWithInt:keywordIndex + 1] forKey:[NSString stringWithFormat:@"%d",vigIndex]];
+        vigIndex++;
+        
+    }
+    
+    
+    // B == char 64 (base 1)
+    NSMutableDictionary *cribInfo = [NSMutableDictionary new];
+    
+    [cribInfo setObject:@"E" forKey:@"64"];
+    [cribInfo setObject:@"L" forKey:@"65"];
+    [cribInfo setObject:@"Y" forKey:@"66"];
+    [cribInfo setObject:@"O" forKey:@"67"];
+    [cribInfo setObject:@"I" forKey:@"68"];
+    [cribInfo setObject:@"E" forKey:@"69"];
+    [cribInfo setObject:@"C" forKey:@"70"];
+    [cribInfo setObject:@"B" forKey:@"71"];
+    [cribInfo setObject:@"A" forKey:@"72"];
+    [cribInfo setObject:@"Q" forKey:@"73"];
+    [cribInfo setObject:@"K" forKey:@"74"];
+    
+    
+    NSArray *sortedKeys = [[cribInfo allKeys] sortedArrayUsingSelector: @selector(compare:)];
+    //NSMutableArray *sortedValues = [NSMutableArray array];
+    for (NSString *key in sortedKeys) {
+    
+        int cribPosition = [key intValue];
+    
+        int xposition = (cribPosition + numPads) % xChars;
+        int yposition = (int)(cribPosition + numPads) / xChars;
+        if (xposition != 0) { yposition++; }
+    
+        int transposePosition = (((xposition - 1) * turnBack) + (turnBack - yposition)) - 1;
+    
+        NSLog(@"Decode char num x %d y %d with %@ and %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]], keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]]);
+    
+    }
+    NSLog(@"\n");
     
     return (plaintext);
 
