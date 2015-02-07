@@ -70,6 +70,10 @@ NSString *alphabetString = @"";
     [_y4 selectRow:5 inComponent:0 animated:YES];
     */
     
+    [_x1 selectRow:1 inComponent:0 animated:YES];
+    [_y1 selectRow:1 inComponent:0 animated:YES];
+    
+    
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
     
@@ -156,7 +160,7 @@ numberOfRowsInComponent:(NSInteger)component
 
 - (IBAction)pressedReset:(id)sender {
     
-    [_x1 selectRow:0 inComponent:0 animated:YES];
+    [_x1 selectRow:1 inComponent:0 animated:YES];
     [_x2 selectRow:0 inComponent:0 animated:YES];
     [_x3 selectRow:0 inComponent:0 animated:YES];
     [_x4 selectRow:0 inComponent:0 animated:YES];
@@ -169,7 +173,7 @@ numberOfRowsInComponent:(NSInteger)component
     [_x11 selectRow:0 inComponent:0 animated:YES];
     [_x12 selectRow:0 inComponent:0 animated:YES];
     
-    [_y1 selectRow:0 inComponent:0 animated:YES];
+    [_y1 selectRow:1 inComponent:0 animated:YES];
     [_y2 selectRow:0 inComponent:0 animated:YES];
     [_y3 selectRow:0 inComponent:0 animated:YES];
     [_y4 selectRow:0 inComponent:0 animated:YES];
@@ -293,12 +297,14 @@ numberOfRowsInComponent:(NSInteger)component
     // determine the value of x and y that are used to encode the crib NYPVTTMZFPK to BERLINCLOCK
     int keyOneLength = [keywordOne length];
     int keyTwoLength = [keywordTwo length];
+    int plaintextLength = [plaintext length];
+    
+    // in order to figure out where the cribstring is and what is was encoded with, we need to
+    // know its location, the key lengths, and the number of padded chars
+    // or, I suppose I could track it by character at time of decode??
+    // add this to the To Do list
     
     // get the location of the cribstring
-    
-    
-    
-    
     
     return (plaintext);
 
