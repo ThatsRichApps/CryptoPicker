@@ -17,7 +17,9 @@
 NSArray *keyOnePickers;
 NSArray *keyTwoPickers;
 NSString *alphabetString = @"";
-int cribMatrix[12][12];
+int cribMatrix[13][13];
+bool xkeyMask[13];
+bool ykeyMask[13];
 
 #pragma mark - Managing the detail item
 
@@ -74,17 +76,28 @@ int cribMatrix[12][12];
     [_x1 selectRow:1 inComponent:0 animated:YES];
     [_y1 selectRow:1 inComponent:0 animated:YES];
     
+    [_x2 selectRow:1 inComponent:0 animated:YES];
+    [_x3 selectRow:1 inComponent:0 animated:YES];
+    [_x4 selectRow:1 inComponent:0 animated:YES];
+    [_x5 selectRow:1 inComponent:0 animated:YES];
+    [_x6 selectRow:1 inComponent:0 animated:YES];
+    [_x7 selectRow:1 inComponent:0 animated:YES];
+    [_x8 selectRow:1 inComponent:0 animated:YES];
+
+    [_y2 selectRow:1 inComponent:0 animated:YES];
+    [_y3 selectRow:1 inComponent:0 animated:YES];
+    [_y4 selectRow:1 inComponent:0 animated:YES];
+    [_y5 selectRow:1 inComponent:0 animated:YES];
+    [_y6 selectRow:1 inComponent:0 animated:YES];
+    [_y7 selectRow:1 inComponent:0 animated:YES];
+    [_y8 selectRow:1 inComponent:0 animated:YES];
+    [_y9 selectRow:1 inComponent:0 animated:YES];
+    [_y10 selectRow:1 inComponent:0 animated:YES];
+    
     
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
     
-    // initialize the cribMatrix with -1 values for null
-    for (int i = 1; i < 12; i++) {
-        for (int j = 1; j < 12; j++) {
-            cribMatrix[i][j] = -1;
-        }
-    
-    }
     
 }
 
@@ -126,15 +139,75 @@ numberOfRowsInComponent:(NSInteger)component
     
 }
 
--(void) constrainsPicker:(int)locked skipX:(int [])skipX skipY:(int [])skipY {
+-(void) changePickers:(NSString *)pickerRow pickerCol:(int) position {
     
-    NSLog(@"Constraining picker %d", locked);
     
+    int thisPickerPosition;
+
+    /*
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 12; j++) {
             NSLog(@"%d", cribMatrix[i][j]);
         }
     }
+    */
+    
+    if ([pickerRow isEqualToString:@"x"]) {
+        thisPickerPosition = (int)[keyOnePickers[position - 1] selectedRowInComponent:0] - 1;
+        NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
+
+        xkeyMask[position] = false; //only do it once
+        // then go through the y pickers that are not masked
+        // change them
+        for (int i = 1; i < 13; i++) {
+        
+            if ((cribMatrix[position][i] != -1) && (ykeyMask[i])) {
+                
+                NSLog(@"Update Y - %d  so that X - %d and it add to - %d", i, position, cribMatrix[position][i]);
+                // find the positon of x-position
+                // add cribMatrix to it and mod by 26
+                NSUInteger newRow = ((thisPickerPosition + cribMatrix[position][i]) % 26) - 1;
+                
+                [keyTwoPickers[i - 1] selectRow:newRow inComponent:0 animated:true];
+                
+                
+            }
+        
+        
+        }
+        
+        
+        
+    } else if ([pickerRow isEqualToString:@"y"]) {
+
+        thisPickerPosition = (int)[keyTwoPickers[position - 1] selectedRowInComponent:0] - 1;
+        NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
+
+        ykeyMask[position] = false;  // only do it once
+        // then go through the x pickers that are not masked
+        // change them
+        for (int i = 1; i < 13; i++) {
+
+            if ((cribMatrix[i][position] != -1) && (xkeyMask[i])) {
+                
+                NSLog(@"Update X - %d  so that Y - %d and it add to - %d", i, position, cribMatrix[i][position]);
+            
+                NSUInteger newRow = ((thisPickerPosition + cribMatrix[i][position]) % 26) - 1;
+                
+                [keyOnePickers[i - 1] selectRow:newRow inComponent:0 animated:true];
+                
+                
+            }
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
     
 }
 
@@ -147,6 +220,20 @@ numberOfRowsInComponent:(NSInteger)component
       inComponent:(NSInteger)component
 {
     
+    // initialize the cribMatrix with -1 values for null
+    for (int i = 0; i < 13; i++) {
+        for (int j = 0; j < 12; j++) {
+            cribMatrix[i][j] = -1;
+        }
+        
+    }
+
+    // initialize the masks to all true
+    for (int i = 0; i < 13; i++) {
+        xkeyMask[i] = true;
+        ykeyMask[i] = true;
+    }
+
     // called whenever a picker is turned
     NSString *ciphertext = _ciphertext.text;
     _plaintext.text = [self decode:ciphertext];
@@ -162,7 +249,7 @@ numberOfRowsInComponent:(NSInteger)component
         xpicker++;
     }
 
-    NSLog(@"Changed xpicker: %d", xpickernum);
+    //NSLog(@"Changed xpicker: %d", xpickernum);
 
     int ypicker = 0;
     int ypickernum = 0;
@@ -173,10 +260,13 @@ numberOfRowsInComponent:(NSInteger)component
         ypicker++;
     }
     
-    NSLog(@"Changed y picker: %d", ypickernum);
+    //NSLog(@"Changed y picker: %d", ypickernum);
 
-    
-    
+    if (xpickernum != 0) {
+        [self changePickers:@"x" pickerCol:xpickernum];
+    } else {
+        [self changePickers:@"y" pickerCol:ypickernum];
+    }
     
     // then decode it again?
     
@@ -445,8 +535,8 @@ numberOfRowsInComponent:(NSInteger)component
     [cribInfo setObject:[NSNumber numberWithInt:0] forKey:@"74"];
     
     // initialize the cribMatrix with -1 values for null
-    for (int i = 1; i < 12; i++) {
-        for (int j = 1; j < 12; j++) {
+    for (int i = 0; i < 13; i++) {
+        for (int j = 0; j < 13; j++) {
             cribMatrix[i][j] = -1;
         }
         
