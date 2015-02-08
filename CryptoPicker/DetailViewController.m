@@ -17,6 +17,7 @@
 NSArray *keyOnePickers;
 NSArray *keyTwoPickers;
 NSString *alphabetString = @"";
+int cribMatrix[12][12];
 
 #pragma mark - Managing the detail item
 
@@ -77,7 +78,14 @@ NSString *alphabetString = @"";
     keyOnePickers = [NSArray arrayWithObjects:_x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11, _x12,nil];
     keyTwoPickers = [NSArray arrayWithObjects:_y1, _y2, _y3, _y4, _y5, _y6, _y7, _y8, _y9, _y10, _y11, _y12,nil];
     
-        
+    // initialize the cribMatrix with -1 values for null
+    for (int i = 1; i < 12; i++) {
+        for (int j = 1; j < 12; j++) {
+            cribMatrix[i][j] = -1;
+        }
+    
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,6 +126,20 @@ numberOfRowsInComponent:(NSInteger)component
     
 }
 
+-(void) constrainsPicker:(int)locked skipX:(int [])skipX skipY:(int [])skipY {
+    
+    NSLog(@"Constraining picker %d", locked);
+    
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 12; j++) {
+            NSLog(@"%d", cribMatrix[i][j]);
+        }
+    }
+    
+}
+
+
+
 
 #pragma mark -
 #pragma mark PickerView Delegate
@@ -128,6 +150,38 @@ numberOfRowsInComponent:(NSInteger)component
     // called whenever a picker is turned
     NSString *ciphertext = _ciphertext.text;
     _plaintext.text = [self decode:ciphertext];
+    
+    // now change all the other pickers according to the cribMatrix
+    // first get the number of the picker that was changed
+    int xpicker = 0;
+    int xpickernum = 0;
+    for (UIPickerView *picker in keyOnePickers) {
+        if (pickerView == picker) {
+            xpickernum = xpicker + 1;
+        }
+        xpicker++;
+    }
+
+    NSLog(@"Changed xpicker: %d", xpickernum);
+
+    int ypicker = 0;
+    int ypickernum = 0;
+    for (UIPickerView *picker in keyTwoPickers) {
+        if (pickerView == picker) {
+            ypickernum = ypicker + 1;
+        }
+        ypicker++;
+    }
+    
+    NSLog(@"Changed y picker: %d", ypickernum);
+
+    
+    
+    
+    // then decode it again?
+    
+    
+    
     
 }
 
@@ -365,6 +419,7 @@ numberOfRowsInComponent:(NSInteger)component
     // B == char 64 (base 1)
     NSMutableDictionary *cribInfo = [NSMutableDictionary new];
     
+    /*
     [cribInfo setObject:@"E" forKey:@"64"];
     [cribInfo setObject:@"L" forKey:@"65"];
     [cribInfo setObject:@"Y" forKey:@"66"];
@@ -376,7 +431,26 @@ numberOfRowsInComponent:(NSInteger)component
     [cribInfo setObject:@"A" forKey:@"72"];
     [cribInfo setObject:@"Q" forKey:@"73"];
     [cribInfo setObject:@"K" forKey:@"74"];
+    */
+    [cribInfo setObject:[NSNumber numberWithInt:11] forKey:@"64"];
+    [cribInfo setObject:[NSNumber numberWithInt:17] forKey:@"65"];
+    [cribInfo setObject:[NSNumber numberWithInt:2] forKey:@"66"];
+    [cribInfo setObject:[NSNumber numberWithInt:5] forKey:@"67"];
+    [cribInfo setObject:[NSNumber numberWithInt:15] forKey:@"68"];
+    [cribInfo setObject:[NSNumber numberWithInt:11] forKey:@"69"];
+    [cribInfo setObject:[NSNumber numberWithInt:9] forKey:@"70"];
+    [cribInfo setObject:[NSNumber numberWithInt:8] forKey:@"71"];
+    [cribInfo setObject:[NSNumber numberWithInt:7] forKey:@"72"];
+    [cribInfo setObject:[NSNumber numberWithInt:20] forKey:@"73"];
+    [cribInfo setObject:[NSNumber numberWithInt:0] forKey:@"74"];
     
+    // initialize the cribMatrix with -1 values for null
+    for (int i = 1; i < 12; i++) {
+        for (int j = 1; j < 12; j++) {
+            cribMatrix[i][j] = -1;
+        }
+        
+    }
     
     NSArray *sortedKeys = [[cribInfo allKeys] sortedArrayUsingSelector: @selector(compare:)];
     //NSMutableArray *sortedValues = [NSMutableArray array];
@@ -386,14 +460,38 @@ numberOfRowsInComponent:(NSInteger)component
     
         int xposition = (cribPosition + numPads) % xChars;
         int yposition = (int)(cribPosition + numPads) / xChars;
-        if (xposition != 0) { yposition++; }
+        if (xposition == 0) {
+            xposition = xChars;
+        } else {
+            yposition++;
+        }
+        
+        int numPadOffset = numPads;
     
-        int transposePosition = (((xposition - 1) * turnBack) + (turnBack - yposition)) - 1;
+        if (xposition <= numPads) {
+            numPadOffset = numPads - xposition;
+        }
+        
+        
+        int transposePosition = (((xposition - 1) * turnBack) + (turnBack - yposition)) - numPadOffset;
     
-        NSLog(@"Decode char num x %d y %d with %@ and %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]], keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]]);
+        NSLog(@"Decode char num x %d y %d with %@ and %@ - %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]],
+              keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]], cribInfo[[NSString stringWithFormat:@"%d",cribPosition]]);
     
+        // now create the add to the cribMatrix accordingly
+        
+        cribMatrix[[keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]] intValue]]
+                  [[keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]] intValue]]
+        = [cribInfo[[NSString stringWithFormat:@"%d",cribPosition]] intValue];
+        
     }
     NSLog(@"\n");
+    
+    
+    
+    
+    
+    
     
     return (plaintext);
 
