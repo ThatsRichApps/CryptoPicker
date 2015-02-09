@@ -166,9 +166,11 @@ numberOfRowsInComponent:(NSInteger)component
                 NSLog(@"Update Y - %d  so that X - %d and it add to - %d", i, position, cribMatrix[position][i]);
                 // find the positon of x-position
                 // add cribMatrix to it and mod by 26
-                NSUInteger newRow = ((thisPickerPosition + cribMatrix[position][i]) % 26) - 1;
+                NSUInteger newRow = ((26 + (cribMatrix[position][i] - thisPickerPosition)) % 26) + 1;
                 
+                NSLog(@"updating ypicker %d to %zd", i, newRow);
                 [keyTwoPickers[i - 1] selectRow:newRow inComponent:0 animated:true];
+                [self changePickers:@"y" pickerCol:i];
                 
                 
             }
@@ -192,22 +194,18 @@ numberOfRowsInComponent:(NSInteger)component
                 
                 NSLog(@"Update X - %d  so that Y - %d and it add to - %d", i, position, cribMatrix[i][position]);
             
-                NSUInteger newRow = ((thisPickerPosition + cribMatrix[i][position]) % 26) - 1;
+                NSUInteger newRow = ((26 + (cribMatrix[i][position] - thisPickerPosition)) % 26) + 1;
+                
+                NSLog(@"updating xpicker %d to %zd", i, newRow);
                 
                 [keyOnePickers[i - 1] selectRow:newRow inComponent:0 animated:true];
-                
+                [self changePickers:@"x" pickerCol:i];
                 
             }
             
-            
         }
         
-        
-        
     }
-    
-    
-    
     
 }
 
@@ -269,9 +267,7 @@ numberOfRowsInComponent:(NSInteger)component
     }
     
     // then decode it again?
-    
-    
-    
+    _plaintext.text = [self decode:ciphertext];
     
 }
 
@@ -565,8 +561,8 @@ numberOfRowsInComponent:(NSInteger)component
         
         int transposePosition = (((xposition - 1) * turnBack) + (turnBack - yposition)) - numPadOffset;
     
-        NSLog(@"Decode char num x %d y %d with %@ and %@ - %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]],
-              keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]], cribInfo[[NSString stringWithFormat:@"%d",cribPosition]]);
+        //NSLog(@"Decode char num x %d y %d with %@ and %@ - %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]],
+        //      keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]], cribInfo[[NSString stringWithFormat:@"%d",cribPosition]]);
     
         // now create the add to the cribMatrix accordingly
         
@@ -575,13 +571,7 @@ numberOfRowsInComponent:(NSInteger)component
         = [cribInfo[[NSString stringWithFormat:@"%d",cribPosition]] intValue];
         
     }
-    NSLog(@"\n");
-    
-    
-    
-    
-    
-    
+    //NSLog(@"\n");
     
     return (plaintext);
 
