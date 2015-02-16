@@ -154,7 +154,7 @@ numberOfRowsInComponent:(NSInteger)component
     
     if ([pickerRow isEqualToString:@"x"]) {
         thisPickerPosition = (int)[keyOnePickers[position - 1] selectedRowInComponent:0] - 1;
-        NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
+        //NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
 
         xkeyMask[position] = false; //only do it once
         // then go through the y pickers that are not masked
@@ -163,12 +163,12 @@ numberOfRowsInComponent:(NSInteger)component
         
             if ((cribMatrix[position][i] != -1) && (ykeyMask[i])) {
                 
-                NSLog(@"Update Y - %d  so that X - %d and it add to - %d", i, position, cribMatrix[position][i]);
+                //NSLog(@"Update Y - %d  so that X - %d and it add to - %d", i, position, cribMatrix[position][i]);
                 // find the positon of x-position
                 // add cribMatrix to it and mod by 26
                 NSUInteger newRow = ((26 + (cribMatrix[position][i] - thisPickerPosition)) % 26) + 1;
                 
-                NSLog(@"updating ypicker %d to %zd", i, newRow);
+                //NSLog(@"updating ypicker %d to %zd", i, newRow);
                 [keyTwoPickers[i - 1] selectRow:newRow inComponent:0 animated:true];
                 [self changePickers:@"y" pickerCol:i];
 <<<<<<< Updated upstream
@@ -186,7 +186,7 @@ numberOfRowsInComponent:(NSInteger)component
     } else if ([pickerRow isEqualToString:@"y"]) {
 
         thisPickerPosition = (int)[keyTwoPickers[position - 1] selectedRowInComponent:0] - 1;
-        NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
+        //NSLog(@"Changed picker %@ - %d to position %d", pickerRow, position, thisPickerPosition );
 
         ykeyMask[position] = false;  // only do it once
         // then go through the x pickers that are not masked
@@ -195,11 +195,11 @@ numberOfRowsInComponent:(NSInteger)component
 
             if ((cribMatrix[i][position] != -1) && (xkeyMask[i])) {
                 
-                NSLog(@"Update X - %d  so that Y - %d and it add to - %d", i, position, cribMatrix[i][position]);
+                //NSLog(@"Update X - %d  so that Y - %d and it add to - %d", i, position, cribMatrix[i][position]);
             
                 NSUInteger newRow = ((26 + (cribMatrix[i][position] - thisPickerPosition)) % 26) + 1;
                 
-                NSLog(@"updating xpicker %d to %zd", i, newRow);
+                //NSLog(@"updating xpicker %d to %zd", i, newRow);
                 
 <<<<<<< Updated upstream
                 [keyOnePickers[i - 1] selectRow:newRow inComponent:0 animated:true];
@@ -310,7 +310,28 @@ numberOfRowsInComponent:(NSInteger)component
 
 - (IBAction)pressedReset:(id)sender {
     
-    [_x1 selectRow:1 inComponent:0 animated:YES];
+    
+    for (UIPickerView *picker in keyOnePickers) {
+    
+        if ([picker selectedRowInComponent:0] != 0) {
+    
+            [picker selectRow:1 inComponent:0 animated:YES];
+        
+        }
+    
+    }
+    
+    for (UIPickerView *picker in keyTwoPickers) {
+        
+        if ([picker selectedRowInComponent:0] != 0) {
+            
+            [picker selectRow:1 inComponent:0 animated:YES];
+            
+        }
+        
+    }
+    /*
+     [_x1 selectRow:1 inComponent:0 animated:YES];
     [_x2 selectRow:0 inComponent:0 animated:YES];
     [_x3 selectRow:0 inComponent:0 animated:YES];
     [_x4 selectRow:0 inComponent:0 animated:YES];
@@ -335,6 +356,7 @@ numberOfRowsInComponent:(NSInteger)component
     [_y10 selectRow:0 inComponent:0 animated:YES];
     [_y11 selectRow:0 inComponent:0 animated:YES];
     [_y12 selectRow:0 inComponent:0 animated:YES];
+    */
     
 }
 
@@ -565,14 +587,14 @@ numberOfRowsInComponent:(NSInteger)component
         int numPadOffset = numPads;
     
         if (xposition <= numPads) {
-            numPadOffset = numPads - xposition;
+            numPadOffset = xposition - 1;
         }
         
         
         int transposePosition = (((xposition - 1) * turnBack) + (turnBack - yposition)) - numPadOffset;
     
-        //NSLog(@"Decode char num x %d y %d with %@ and %@ - %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]],
-        //      keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]], cribInfo[[NSString stringWithFormat:@"%d",cribPosition]]);
+        NSLog(@"Decode char num x %d y %d with %@ and %@ - %@", cribPosition, transposePosition, keyOneMap[[NSString stringWithFormat:@"%d",(cribPosition - 1)]],
+              keyTwoMap[[NSString stringWithFormat:@"%d",transposePosition]], cribInfo[[NSString stringWithFormat:@"%d",cribPosition]]);
     
         // now create the add to the cribMatrix accordingly
         
