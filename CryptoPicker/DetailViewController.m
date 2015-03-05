@@ -171,10 +171,6 @@ numberOfRowsInComponent:(NSInteger)component
                 NSLog(@"updating ypicker %d to %zd", i, newRow);
                 [keyTwoPickers[i - 1] selectRow:newRow inComponent:0 animated:true];
                 [self changePickers:@"y" pickerCol:i];
-<<<<<<< Updated upstream
-                
-=======
->>>>>>> Stashed changes
                 
             }
         
@@ -201,10 +197,7 @@ numberOfRowsInComponent:(NSInteger)component
                 
                 NSLog(@"updating xpicker %d to %zd", i, newRow);
                 
-<<<<<<< Updated upstream
                 [keyOnePickers[i - 1] selectRow:newRow inComponent:0 animated:true];
-=======
->>>>>>> Stashed changes
                 [self changePickers:@"x" pickerCol:i];
                 
             }
@@ -273,10 +266,6 @@ numberOfRowsInComponent:(NSInteger)component
     }
     
     // then decode it again?
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
     _plaintext.text = [self decode:ciphertext];
     
 }
